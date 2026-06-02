@@ -11,7 +11,7 @@ import java.util.Scanner;
  */
 public class TicTacToe {
 
-    static char currentPlayer = 'X';
+    static char currentPlayer;
     static Scanner scanner = new Scanner(System.in);
     static char[][] board = new char[3][3];
     static char[] t3Board = new char[9];
@@ -33,13 +33,24 @@ public class TicTacToe {
 
         boolean continueFlag = true;
 
+        //do until all cells are filled or somebody one
+        //since there are 9 elements in Array do a for loop
+        for (int i = 0; i < t3Board.length; i++) {
+            if (i % 2 == 0) {
+                currentPlayer = 'X';
+            } else {
+                currentPlayer = 'O';
+            }
+
+            askToMove(currentPlayer);
+        }
+
         do {
             //ask the current player for a move
-            askForMove();
+            // askForMove();
 
             //validate the move
-            isValidMove(t3Board);
-
+            // isValidMove(t3Board);
             //apply the move
             printBoard(t3Board);
 
@@ -50,12 +61,12 @@ public class TicTacToe {
             // if yes, then check if there's a 3 cross winner
             // if no, then switch to next player 
             // if yes, then sout "Player X win!"
-            continueFlag = continueMove(t3Board);
-        } while (continueFlag);
+            // continueFlag = continueMove(t3Board);
+        } while (true);
 
         //check win or draw
         //switch player
-        scanner.close();
+        // scanner.close();
     }
 
     private static void initializeBoard(char[] t3Board) {
@@ -76,22 +87,21 @@ public class TicTacToe {
         }
     }
 
-    public static void askForMove() {
-        System.out.println("Enter your move.");
-
-        boolean repeat = false;
+    public static void askToMove(char currentPlayer) {
+        int input = 0;
 
         do {
-            System.out.println("Enter location (1-9): ");
+            System.out.println("Player " + currentPlayer + " ,enter location (1-9): ");
             int cell = scanner.nextInt();
 
             if (isValid(cell)) {
                 t3Board[cell - 1] = currentPlayer;
-                break;
+                input = 1;
+            } else {
+                System.out.println("Invalid!");
             }
-
-        } while (repeat);
-
+            printBoard(t3Board);
+        } while (input == 0);
     }
 
     private static boolean isValid(int cell) {
@@ -101,11 +111,4 @@ public class TicTacToe {
         return !(cellVal == 'X' || cellVal == 'O');
     }
 
-    private static void isValidMove(char[] t3Board) {
-
-    }
-
-    private static boolean continueMove(char[] t3Board) {
-        return true;
-    }
 }
