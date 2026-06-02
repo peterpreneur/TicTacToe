@@ -71,21 +71,27 @@ public class TicTacToe {
     }
 
     public static void askToMove(char currentPlayer) {
-        boolean flag = false;
+        boolean moveAccepted = false;
 
         do {
             System.out.println("Player " + currentPlayer + " ,enter location (1-9): ");
+            if (!scanner.hasNextInt()) {
+                System.out.println("Invalid! Please enter a number.");
+                scanner.next();
+                continue;
+            }
+
             int cell = scanner.nextInt();
 
             if (isValid(cell)) {
                 t3Board[cell - 1] = currentPlayer;
-                flag = true;
+                moveAccepted = true;
+                printBoard(t3Board);
             } else {
-                System.out.println("Invalid!");
+                System.out.println("Invalid! Choose an open cell from 1 to 9.");
             }
-            printBoard(t3Board);
 
-        } while (!flag);
+        } while (!moveAccepted);
     }
 
     private static boolean isValid(int cell) {
